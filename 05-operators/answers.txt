@@ -1,0 +1,178 @@
+1. Write out a generic SELECT statement.
+      SELECT something
+      FROM some_table
+      WHERE something=something
+
+2. Create a fun way to remember the order of operations in a SELECT statement, such as a mnemonic.
+      Select, From, Where
+      Science
+      Fiction
+      Writers
+
+3. Given this dogs table, write queries to select the following pieces of data:
+   a. Display the name, gender, and age of all dogs that are part Labrador.
+        SELECT name, gender, age
+        FROM dogs
+        WHERE breed LIKE'%labrador%';
+
+   b. Display the ids of all dogs that are under 1 year old.
+        SELECT id
+        FROM dogs
+        WHERE age < 1;
+
+   c. Display the name and age of all dogs that are female and over 35lbs.
+        SELECT name, age
+        FROM dogs
+        WHERE gender='F'
+        AND weight > 35;
+
+   d. Display all of the information about all dogs that are not Shepherd mixes.
+        SELECT *
+        FROM dogs
+        WHERE breed NOT LIKE '%shepherd%';
+
+   e. Display the id, age, weight, and breed of all dogs that are either over 60lbs or Great Danes.
+        SELECT id, age, weight, breed
+        FROM dogs
+        WHERE weight > 60
+        OR breed='great dane';
+
+4. Given this cats table, what records are returned from these queries?
+   a. SELECT name, adoption_date FROM cats;
+        All names and adoption dates
+        name        adoption_date
+        'Mushi'     '2016-03-22'
+        'Seashell'  NULL
+        'Azul'      '2016-04-17'
+        'Victoire', '2016-09-01'
+        'Nala'       NULL
+
+   b. SELECT name, age FROM cats;
+        All names and ages
+
+
+        name        age
+        'Mushi'     1
+        'Seashell'  7
+        'Azul'      3
+        'Victoire', 7
+        'Nala'      1
+
+5. From the cats table, write queries to select the following pieces of data.
+   a. Display all the information about all of the available cats.
+        SELECT *
+        FROM cats
+
+   b. Display the name and sex of all cats who are 7 years old.
+        SELECT name, gender
+        FROM cats
+        WHERE age = 7;
+
+   c. Find all of the names of the cats, so you don’t choose duplicate names for new cats.
+        SELECT name
+        FROM cats
+
+
+6. List each comparison operator and explain, in your own words, when you would use it. Include a real world example for each.
+   If you can’t list these from memory, do these flashcards until you can!
+
+        = Equal to - Used to find any data matches some value.
+        Examples:
+        SELECT * FROM cats WHERE age = 7;
+        If the password you type is equal to the stored password you can login
+
+        != Not equal to - Used to find any data that does not match some value.
+        Examples:
+        SELECT * FROM cats WHERE name != 'Mushi';
+        If the password you type is not equal to the stored password you cannot login
+
+        > Greater than - Used to find any data that more than some value.
+        Examples:
+        SELECT * FROM cats WHERE age > 3;
+        If you are greater than the drinking age you can drink
+
+        < Less than - Used to find any data that is less than some value.
+        Examples:
+        SELECT * FROM catss WHERE age < 7;
+        If you are less than the drinking age you cannot drink
+
+        >= Greater than or equal to - Used to find any data that is more than or matches some value.
+        Examples:
+        SELECT * FROM cats WHERE age >= 4;
+        If you are greater than or equal to a certain height you can ride the rides at an amusement park
+
+        <= Less than or equal to - Used to find any data that is less than or matches some value.
+        Examples:
+        SELECT * FROM cats WHERE age <= 9;
+        If you are less than or equal to a certain weight you cannot donate blood
+
+        <> Greater than or less than, Used to find any data that is more than or less than some value.
+        Examples:
+        SELECT * FROM cats WHERE age <> 4;
+        A black jack dealer has 12 and you have 21. The dealer must get a card greater than or less than 9 for you to win.
+
+        LIKE - Used to find any data that matches some value. Can be used to find partial matches.
+        Examples:
+        SELECT * FROM cats WHERE name LIKE '%M';
+        Using ctrl f to see if a word or phrase in on the current page
+
+        BETWEEN - Used to find any data that is more than some value and less than another value.
+        Examples:
+        SELECT * FROM cats WHERE age BETWEEN 3 AND 10;
+        the temperature needs to be between 60 and 80 for it to be a nice day out
+
+        IS DISTINCT FROM - Used to find any data that does not match some value. Can handle null inputs.
+        Examples:
+        SELECT * FROM cats WHERE name IS DISTINCT FROM 'Mushi';
+        Making sure each user has a distinct user name when signing up for a site
+
+        IS TRUE - Used to evaluate if an expression is true.
+        Examples:
+        SELECT * FROM cats WHERE spayed IS TRUE;
+
+        IS FALSE - Used to evaluate if an expression is false.
+        Examples:
+        SELECT * FROM cats WHERE spayed IS False;
+
+        IS NULL - Check if a piece of data is "null"
+        Examples:
+        SELECT * FROM cats WHERE age IS null;
+
+        AND - Used to find any data matches multiple values.
+        Examples:
+        SELECT * FROM cats WHERE age < 10 AND spayed = true;
+        You only want to go out if it is sunny and the temperature is over 70
+
+        OR - Used to find any data matches at least one value.
+        Examples:
+        SELECT * FROM cats WHERE age > 3 OR name = 'Mushi';
+        You will only go to an Italian restaurant or a Chinese restaurant
+
+        NOT - Used to find any data that evaluates to falsey.
+        Examples:
+        SELECT * FROM cats WHERE NOT age = 3';
+        You will only go out if Ben is not there
+
+7. From the cats table, what data is returned from these queries?
+   a. SELECT name FROM cats WHERE gender = ‘F’;
+        All names of female cats
+
+        name
+        'Seashell'
+        'Nala'
+
+   b. SELECT name FROM cats WHERE age <> 3;
+        All names of cats that aren't 3
+
+        name
+        'Mushi'
+        'Seashell'
+        'Victoire'
+        'Nala'
+
+   c. SELECT id FROM cats WHERE name != ‘Mushi’ AND gender = ‘M’;
+        All the id's of male cats that aren't Mushi
+
+        age
+        3
+        4
