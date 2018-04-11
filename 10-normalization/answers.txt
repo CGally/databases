@@ -1,0 +1,128 @@
+1. In your own words, explain the benefits of normalization. Include a real-world scenario
+   where normalization is necessary.
+        Normalization of a database should be used when the database will be performing a
+        large number of write operations because normalization minimizes redundant columns.
+
+        Example: Companies like Reddit that would have a large number of write operations like
+        adding users or creating a post.
+
+
+2. List and explain the different normal forms and how they relate to one another, with
+   regard to your real-world scenario in the first question.
+        Example:  Amazon adding users and completing orders
+
+        1NF - A column of a table cannot contain multiple values.
+        Example: The user table contains one entry per column:  id, username, email
+
+        2NF - The table must be in 1NF. All non-key attributes cannot be dependent on a
+        subset of the primary key
+        Example: The post table contains id, user_id, subject. Candidate keys: id, user_id.
+        Functional Dependencies: id -> subject. Since subject is only dependent on id this
+        could be separated into two tables: id | subject ----- id | user_id.
+
+        3NF - The table must be in 2NF which means the table is also in 1NF. Transitive
+        dependencies cannot exist.
+        Example: The post table contains id, user_name, user_email, subject, date.
+        Candidate Keys: id Non-prime attributes: All columns except id, since they are not
+        part of any candidate key. Functional Dependencies: id -> username,  username -> user_email.
+        This could be separated into two tables: id | username | subject | date -----
+        username | user_email
+
+        BCNF -  The table must be in 3NF which means the table is also in 2NF and 1NF. For
+        every dependency X -> Y, X must be a super key of the table.
+        Example: The post table contains id, subject, comment, user, comment_date.
+        Candidate Key: id, comment Functional Dependencies: id -> subject, comment -> {user, comment_date}
+        This could be separated into three tables: id | subject ----- comment | user | comment_date
+        ----- id | comment
+
+
+  3. This student_records table contains students and their grades in different subjects.
+     The schema is already in first normal form (1NF). Convert this schema to the third
+     normal form (3NF) using the techniques you learned in this checkpoint.
+     ORIGINAL
+     CREATE TABLE student_records (
+       "id"             INTEGER,
+       "student_id"     INTEGER,
+       "student_email"  VARCHAR(24),
+       "student_name"   VARCHAR(9),
+       "professor_id"   INTEGER,
+       "professor_name" VARCHAR(9),
+       "subject"        VARCHAR(11),
+       "grade"          VARCHAR(1)
+     );
+     id	 student_id 	student_email	            student_name	 professor_id	 professor_name	 subject	    grade
+     1	 1	          john.b20@hogwarts.edu	    John B	       2	           William C	     Philosophy	  A
+     2	 2	          sarah.s20@hogwarts.edu	  Sarah S	       2	           William C	     Philosophy	  C
+     3	 3	          martha.l20@hogwarts.edu	  Martha L	     1	           Natalie M	     Economics	  A
+     4	 4	          james.g20@hogwarts.edu	  James G	       3	           Mark W	         Mathematics	B
+     5	 5	          stanley.p20@hogwarts.edu	Stanley P	     1	           Natalie M	     Economics	  B
+
+
+     3NF
+     CREATE TABLE student_records (
+       "id"             INTEGER,
+       "student_id"     INTEGER,
+       "professor_id"   INTEGER,
+       "grade"          VARCHAR(1)
+     );
+     id	 student_id 	professor_id	 grade
+     1	 1	          2	             A
+     2	 2	          2	             C
+     3	 3	          1	             A
+     4	 4	          3	             B
+     5	 5	          1	             B
+
+
+     CREATE TABLE professor (
+       "professor_id"   INTEGER,
+       "professor_name" VARCHAR(9),
+       "subject"        VARCHAR(11)
+     );
+     professor_id	 professor_name	 subject
+     2	           William C	     Philosophy
+     2	           William C	     Philosophy
+     1	           Natalie M	     Economics
+     3	           Mark W	         Mathematics
+     1	           Natalie M	     Economics
+
+
+     CREATE TABLE student (
+       "student_id"     INTEGER,
+       "student_email"  VARCHAR(24),
+       "student_name"   VARCHAR(9)
+     );
+     student_id 	student_email	            student_name
+     1	          john.b20@hogwarts.edu	    John B
+     2	          sarah.s20@hogwarts.edu	  Sarah S
+     3	          martha.l20@hogwarts.edu	  Martha L
+     4	          james.g20@hogwarts.edu	  James G
+     5	          stanley.p20@hogwarts.edu	Stanley P
+
+
+4. In your own words, explain the potential disadvantages of normalizing the data above. What
+   are its trade-offs? Submit your findings in the submission table and discuss them with your
+   mentor in your next session.
+        The advantages would be increasing the speed of write operations. You would be able to add
+        new entries quicker. The disadvantages would be decreasing speed of read operations as well
+        as making the data more difficult to query. Querying would require using several JOINS.
+
+
+5. Looking at the tables you have normalized. If you need to denormalize to improve query
+   performance or speed up reporting, how would you carry out denormalization for this
+   database design? Submit potential strategies in the submission tab and discuss them with
+   your mentor in your next session.
+        Potential strategies are combining tables and adding derived columns. Combining puts the data
+        in one place increasing read performance. If you are consistently accessing the same data
+        like student_name, subject and grade. Then adding derived columns (like adding student_name
+        and subject to the student_records table) will increase read performance but also increase
+        redundancy.
+
+
+6. Explore the trade-offs between data normalization and denormalization in this scenario,
+   submit your findings in the submission tab, and discuss them with your mentor in your next
+   session.
+        The original table in question 3 is completely denormalization. This would make querying extremely
+        easy and it would have great read performance. In the three tables that were the answer for question 3
+        the data is normalized. This would increase write performance and decrease redundancy which decreases
+        errors. Depending on what one wants to do with the data, meeting somewhere in between normalization and
+        denormalization (like adding redundant columns) may be the best solution.
